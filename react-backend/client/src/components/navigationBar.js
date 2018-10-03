@@ -12,7 +12,7 @@ class NavigationBar extends Component {
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
-                    <Nav>
+                    {/* <Nav>
                         <NavItem eventKey={1} href="#">
                             Link
                         </NavItem>
@@ -27,7 +27,7 @@ class NavigationBar extends Component {
                         <NavItem eventKey={2} href="#">
                             Link Right
                         </NavItem>
-                    </Nav>
+                    </Nav> */}
                 </Navbar.Collapse>
                 </Navbar>
         )

@@ -1,55 +1,141 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Search extends Component {
     constructor(props){
         super(props)
         this.state = {
-            summoner: '',
-            region: 'na'
+            champion: '',
+            items: [],
+            id: '',
+            lore: '',
+            isLoaded: false
         }
-        this.handleSummonerChange = this.handleSummonerChange.bind(this)
-        this.handleRegionChange = this.handleRegionChange.bind(this)
+        this.handleChampionChange = this.handleChampionChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
 
-    handleSummonerChange (event) {
-        const summoner = event.target.value.trim()
+    handleChampionChange(event) {
+        //const champion = event.target.value.trim()
     
-        this.setState({ summoner })
+        this.setState({ champion: event.target.value })
+
+        // this.props.changeName(this.state.champion);
+
+        // var url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + champion + '.json';
+        // axios.get(url)
+        //     .then(response => {
+        //         this.setState({
+        //             items: response,
+        //             isLoaded: true
+        //         })
+        //     })
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(json => {
+        //         this.setState({
+        //             isLoaded: true,
+        //             items: json
+        
+        //         })
+        //     })
     }
 
-    handleRegionChange (event) {
-        const region = event.target.value
+    handleSubmit(event) {
+        event.preventDefault();
 
-        this.setState({ region })
+        this.getURL();
+
+        // console.log(this.state.items.data[this.state.champion]);
+        //console.log("data: " + this.state.items);
+        // window.location = `/champions/${this.state.champion}`
+
+        //console.log("state: "+ this.state.items);
     }
 
-    handleSubmit (event) {
-        event.preventDefault()
-        window.location = `/summoners/${this.state.region}/${this.state.summoner}`
+    getURL(){
+        this.setState({ isLoaded: true });
+
+        var champion = this.Capitalize(this.state.champion);
+        var url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + champion + '.json';
+        fetch(url)
+            .then(res => res.json())
+            .then(json => {
+                console.log(json)
+                this.setState({
+                    isLoaded: true,
+                    items: json,
+                    id: json.data[this.Capitalize(this.state.champion)].id,
+                    lore: json.data[this.Capitalize(this.state.champion)].lore
+                }, () => {
+                    console.log("state: " + this.state.items.data[this.Capitalize(this.state.champion)].id)
+                    console.log("id: " + this.state.id)
+                    console.log("lore: " + this.state.lore)
+                })
+            })
     }
+
+    Capitalize(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    //componentWillMount(){
+
+        // fetch('http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/Aatrox.json')
+        // .then((response => response.json()))
+        // .then(response => this.props.onFetch(response))
+       
+    //}
+
+    // componentDidMount(){
+    //     var name = this.state.champion;
+    //     var url2 = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + name + '.json';
+    //     var url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/Aatrox.json'
+    //     fetch(url)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //         this.setState({
+    //         isLoaded: true,
+    //         items: json,
+    
+    //         })
+    //     })
+    // }
     
 
     render(){
+        var {  isLoaded, items } = this.state;
+
+        // if(!isLoaded){
+        //   return <div> Loading... </div>;
+        // }
         return(
-            <form className='search-form' onSubmit={this.handleSubmit}>
-                <input
-                type='text'
-                onChange={this.handleSummonerChange}
-                className='input-summoner'
-                placeholder='Enter a summoner name'
-                />
+            <div>
+                
+                <form className='search-form' onSubmit={this.handleSubmit}>
+                    <input
+                    type='text'
+                    onChange={this.handleChampionChange}
+                    className='input-summoner'
+                    placeholder='Enter a champion name'
+                    />
 
-                <button className='search-button' type='submit' >
-                <i className='fa fa-search search-icon' aria-hidden='true' />
-                Search
-                </button>
+                    <button className='search-button' type='submit' >
+                    <i className='fa fa-search search-icon' aria-hidden='true' />
+                    Search
+                    </button>
+                    
+                </form>
 
-                {/* <select onChange={this.handleRegionChange} defaultValue='na' className='input-region'>
-                <option value='na'>NA</option>
-                </select> */}
-            </form>
+                <h1>
+                    {this.state.items.type}
+                    {/* {this.state.items.data[this.state.champion].id} */}
+                    {this.state.champion}
+                </h1>
+
+                {/* <h1>Champion: {this.state.items.data[this.state.champion].name}</h1> */}
+            </div>
         )
     }
 }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import Navbar from './components/navigationBar';
 import NavigationBar from './components/navigationBar';
 import Search from './components/search'
-import Player from './components/player';
-import PlayerCon from './container/playerContainer.js';
+import Champion from './components/champion';
+// import PlayerCon from './container/playerContainer.js';
+import apiData from './actions/apiData';
 // import {createStore, applyMiddleware} from 'redux';
 // import {Provider} from 'react-redux';
 // import thunk from 'redux-thunk';
@@ -16,67 +18,78 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      champion: '',
       items: [],
       isLoaded: false,
     }
   }
 
-  componentWillMount(){
-    
+  onChangeChampionName(newName){
+    this.setState({
+      champion: newName
+    });
   }
 
-  componentDidMount(){
-    fetch('http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/Aatrox.json')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json,
+  // componentDidMount(){
+  //   var url2 = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + {...this.props.champion} + '.json';
+  //   var url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/Aatrox.json'
+  //   fetch(url)
+  //     .then(res => res.json())
+  //     .then(json => {
+  //       this.setState({
+  //         isLoaded: true,
+  //         items: json,
 
-        })
-      })
-  }
+  //       })
+  //     })
+  // }
+
+  
   
   render() {
-    var {  isLoaded, items } = this.state;
+    // var {  isLoaded, items } = this.state;
 
-    if(!isLoaded){
-      return <div> Loading </div>;
-    }
+    // if(!isLoaded){
+    //   return <div> Loading </div>;
+    // }
 
     return (
       <div className="App">
         {/* <Navbar /> */}
         <NavigationBar />
-
-        <h1>Summoner</h1>
-        {this.state.items.data.Aatrox.lore}
-
-        <Search />
-        <Player />
-        <PlayerCon></PlayerCon>
-
-        {/* <ul>
-          {items.map(item => (
-            <li key={item.id}>
-              Name: {item.name}
-            </li>
-          ))}
-        </ul> */}
-
-        <div >
-          <ul>
-            {/* {this.state.items.map(item => (
-              <li key={item.id}>
-                Name: {item.name}
-              </li>
-            ))} */}
-          </ul>
-        </div>
+        <Search changeName={this.onChangeChampionName.bind(this)}/>
+        
+        {/* <h1>Champion: {this.state.items.data.Aatrox.name}</h1>
+        
+        {this.state.items.data.Aatrox.lore} */}
+        
+        <Champion />
+        {/* <PlayerCon></PlayerCon> */}
 
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state){
+
+  return{
+    champion: state.champion
+  }
+}
+
+function mapDispatchToProps(dispatch){
+
+  return{
+    onFetch: (response) => dispatch(apiData(response))
+  }
+}
+
+var connectedComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+export default connectedComponent;
+
+// export default App;
