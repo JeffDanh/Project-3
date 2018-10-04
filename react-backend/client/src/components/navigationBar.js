@@ -4,23 +4,23 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 class NavigationBar extends Component {
     render() {
         return(
-            <Navbar inverse collapseOnSelect>
+            <Navbar inverse collapseOnSelect >
                 <Navbar.Header>
                     <Navbar.Brand>
-                    <a href="#brand">League Stats</a>
+                    <a href="#brand" style={{color: 'gold'}}>LeagueBook</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
-                    {/* <Nav>
+                    <Nav>
                         <NavItem eventKey={1} href="#">
-                            Link
+                            Champions
                         </NavItem>
                         <NavItem eventKey={2} href="#">
-                            Link
+                            Ranked
                         </NavItem>
                     </Nav>
-                    <Nav pullRight>
+                    {/* <Nav pullRight>
                         <NavItem eventKey={1} href="#">
                             Link Right
                         </NavItem>

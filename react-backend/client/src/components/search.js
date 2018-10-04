@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Champion from './champion';
 
 class Search extends Component {
     constructor(props){
@@ -9,6 +10,8 @@ class Search extends Component {
             items: [],
             id: '',
             lore: '',
+            info: [],
+            stats: [],
             isLoaded: false
         }
         this.handleChampionChange = this.handleChampionChange.bind(this)
@@ -20,7 +23,7 @@ class Search extends Component {
         //const champion = event.target.value.trim()
     
         this.setState({ champion: event.target.value })
-
+        
         // this.props.changeName(this.state.champion);
 
         // var url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + champion + '.json';
@@ -44,14 +47,13 @@ class Search extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
+        
         this.getURL();
 
         // console.log(this.state.items.data[this.state.champion]);
-        //console.log("data: " + this.state.items);
+        // console.log("data: " + this.state.items);
         // window.location = `/champions/${this.state.champion}`
-
-        //console.log("state: "+ this.state.items);
+        // console.log("state: "+ this.state.items);
     }
 
     getURL(){
@@ -66,12 +68,20 @@ class Search extends Component {
                 this.setState({
                     isLoaded: true,
                     items: json,
-                    id: json.data[this.Capitalize(this.state.champion)].id,
-                    lore: json.data[this.Capitalize(this.state.champion)].lore
+                    id: json.data[champion].id,
+                    lore: json.data[champion].lore,
+                    title: json.data[champion].title,
+                    info: json.data[champion].info,
+                    stats: json.data[champion].stats,
+                    spells: json.data[champion].spells,
+                    
+
                 }, () => {
                     console.log("state: " + this.state.items.data[this.Capitalize(this.state.champion)].id)
                     console.log("id: " + this.state.id)
                     console.log("lore: " + this.state.lore)
+                    console.log("spells" + this.state.spells)
+                    
                 })
             })
     }
@@ -106,36 +116,61 @@ class Search extends Component {
 
     render(){
         var {  isLoaded, items } = this.state;
-
+        
         // if(!isLoaded){
         //   return <div> Loading... </div>;
         // }
         return(
             <div>
-                
-                <form className='search-form' onSubmit={this.handleSubmit}>
-                    <input
+
+                <form style={{textAlign: 'center'}} className='search-form' onSubmit={this.handleSubmit}>
+                    <input style={{padding: '5px', textAlign: 'center', border: '2px solid gold'}}
                     type='text'
                     onChange={this.handleChampionChange}
                     className='input-summoner'
-                    placeholder='Enter a champion name'
+                    placeholder='Search champion'
                     />
 
-                    <button className='search-button' type='submit' >
+                    <button style={{color: '#666', background: 'gold', border: '2px solid gold', padding: '5px'}} className='search-button' type='submit' >
                     <i className='fa fa-search search-icon' aria-hidden='true' />
                     Search
                     </button>
                     
                 </form>
 
-                <h1>
-                    {this.state.items.type}
-                    {/* {this.state.items.data[this.state.champion].id} */}
+                <h1 style={{margin: '20px'}}>Champion: {this.state.id} <i style={{fontSize: '16px'}}>{this.state.title}</i></h1>
+                <h2 style={{margin: '20px'}}></h2>
+                
+                {/* {this.state.lore} */}
+                <p>
+                    {/* {this.state.items.type}
                     {this.state.champion}
-                </h1>
+                    {this.state.id}
+                    {this.state.lore} */}
+                </p>
 
-                {/* <h1>Champion: {this.state.items.data[this.state.champion].name}</h1> */}
+                <Champion 
+                id={this.state.id}
+                championLore={this.state.lore}
+
+                attack={this.state.info.attack} 
+                defense={this.state.info.defense}
+                magic={this.state.info.magic}
+                difficulty={this.state.info.difficulty}
+
+                hp={this.state.stats.hp}
+                hpperlevel={this.state.stats.hpperlevel}
+                mp={this.state.stats.mp}
+                mpperlevel={this.state.stats.mpperlevel}
+                movespeed={this.state.stats.movespeed}
+                armor={this.state.stats.armor}
+                armorperlevel={this.state.stats.armorperlevel}
+                attackrange={this.state.stats.attackrange}
+
+
+                {...this.props} />
             </div>
+            
         )
     }
 }

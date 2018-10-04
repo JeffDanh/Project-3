@@ -63,7 +63,7 @@ class App extends Component {
         
         {this.state.items.data.Aatrox.lore} */}
         
-        <Champion />
+        {/* <Champion /> */}
         {/* <PlayerCon></PlayerCon> */}
 
       </div>
