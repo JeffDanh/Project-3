@@ -12,6 +12,7 @@ class Search extends Component {
             lore: '',
             info: [],
             stats: [],
+            spells: [],
             isLoaded: false
         }
         this.handleChampionChange = this.handleChampionChange.bind(this)
@@ -73,14 +74,14 @@ class Search extends Component {
                     title: json.data[champion].title,
                     info: json.data[champion].info,
                     stats: json.data[champion].stats,
-                    spells: json.data[champion].spells,
+                    spells: json.data[champion].spells
                     
 
                 }, () => {
-                    console.log("state: " + this.state.items.data[this.Capitalize(this.state.champion)].id)
-                    console.log("id: " + this.state.id)
-                    console.log("lore: " + this.state.lore)
-                    console.log("spells" + this.state.spells)
+                    // console.log("state: " + this.state.items.data[this.Capitalize(this.state.champion)].id)
+                    // console.log("id: " + this.state.id)
+                    // console.log("lore: " + this.state.lore)
+                    // console.log("spells" + this.state.spells)
                     
                 })
             })
@@ -139,15 +140,6 @@ class Search extends Component {
                 </form>
 
                 <h1 style={{margin: '20px'}}>Champion: {this.state.id} <i style={{fontSize: '16px'}}>{this.state.title}</i></h1>
-                <h2 style={{margin: '20px'}}></h2>
-                
-                {/* {this.state.lore} */}
-                <p>
-                    {/* {this.state.items.type}
-                    {this.state.champion}
-                    {this.state.id}
-                    {this.state.lore} */}
-                </p>
 
                 <Champion 
                 id={this.state.id}
@@ -167,6 +159,7 @@ class Search extends Component {
                 armorperlevel={this.state.stats.armorperlevel}
                 attackrange={this.state.stats.attackrange}
 
+                spells={this.state.spells}
 
                 {...this.props} />
             </div>

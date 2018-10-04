@@ -30,7 +30,7 @@ class Champion extends Component{
                 </Tab>
                 <Tab eventKey={2} title="Stats" style={{margin: '20px'}}>
 
-                    <p> 
+                    <p> <b>
                         Attack: {this.props.attack} <br />
                         Defense: {this.props.defense} <br />
                         Magic: {this.props.magic} <br />
@@ -43,16 +43,24 @@ class Champion extends Component{
                         Movement speed: {this.props.movespeed} <br />
                         Armor: {this.props.armor} <br />
                         Armor per level: {this.props.armorperlevel} <br />
-                        Attack range: {this.props.attackrange} <br />
+                        Attack range: {this.props.attackrange} <br /> </b>
                     </p>
 
                 </Tab>
                 <Tab eventKey={3} title="Abilities" style={{margin: '20px'}}>
-                    
+                    <p>
+                        {this.props.spells.map(item => (
+                            <li key={item.id} style={{listStyle: 'none'}}>
+                                <h3 style={{textDecoration: 'underline'}}>{item.id} - <i>{item.name}</i> </h3>
+                                 
+                                <p>Description: {item.description} </p> <br />
+                                <p>Tooltip: {item.tooltip} </p>
+                            </li>
+                        ))}
+                    </p>
                 </Tab>
                 <Tab eventKey={4} title="Skins" >
-                    Name: {this.props.id} <br />
-
+                    
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_0.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_1.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_2.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
@@ -64,6 +72,7 @@ class Champion extends Component{
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_8.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_9.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
                     <div style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + id +'_10.jpg)', height: '600px', backgroundRepeat: 'no-repeat'}}/>
+
                 </Tab>
             </Tabs>
         )
